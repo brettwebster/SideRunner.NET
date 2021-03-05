@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.106
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sider", "Sider\Sider.csproj", "{24A2A292-54EB-4110-8FF8-1403D7E68631}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnerTest", "RunnerTest\RunnerTest.csproj", "{934ED84B-FB68-4489-8381-1E281EC4778C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunnerTest", "RunnerTest\RunnerTest.csproj", "{934ED84B-FB68-4489-8381-1E281EC4778C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

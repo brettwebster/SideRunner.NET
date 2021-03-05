@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using OpenQA.Selenium;
 
 /// <summary>
 /// base on 
@@ -112,5 +113,30 @@ namespace Sider.Models
 
         [JsonProperty("windowTimeout", NullValueHandling = NullValueHandling.Ignore)]
         public long? WindowTimeout { get; set; }
+
+        public By TargetToLocator()
+        {
+            if (string.IsNullOrEmpty(Target)) { return null; }
+
+            var targetType = Target.Substring(0, Target.IndexOf('=', 0));
+            var targetValue = Target.Substring(targetType.Length+1);
+
+            By selector = null;
+
+            switch (targetType)
+            {
+                case "linkText":
+                    selector = By.LinkText(targetValue);
+                    break;
+                case "id":
+                    selector = By.Id(targetValue);
+                    break;
+                case "css":
+                    selector = By.CssSelector(targetValue);
+                    break;
+            }
+
+            return selector;
+        }
     }
 }
