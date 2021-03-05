@@ -6,7 +6,9 @@ using System;
 
 using System.Net;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Tests
 {
@@ -26,12 +28,23 @@ namespace Tests
                 this.basePath = Path.GetDirectoryName(this.basePath);
 
             this.basePath = Path.Join(this.basePath, this.dir);
-
+           
         }
 
+        /// <summary>
+        /// This method provides a common set of functions that are performed after each test method.
+        /// <seealso cref="https://docs.nunit.org/articles/nunit/writing-tests/attributes/teardown.html"/>
+        /// </summary>
         [TearDown]
         public void CloseListener()
         {
+            // close any rogue chromedriver's remaining from a failed test
+            var drivers = Process.GetProcessesByName("chromedriver");
+            drivers.AsParallel().ForAll(p =>
+            {
+                p.Kill();
+            });
+
             if (this.listening)
             {
                 this.listening = false;
@@ -42,8 +55,6 @@ namespace Tests
 
         public async Task StartHttpServer(string filePath)
         {
-            this.CloseListener();
-
             this.listener = new HttpListener();
 
             this.listening = true;
@@ -114,8 +125,6 @@ namespace Tests
                 driver.FindElementById("validate").Click();
                 var result = driver.FindElementById("result").Text;
                 Assert.AreEqual("OK", result);
-
-                this.CloseListener();
             }
         }
     }

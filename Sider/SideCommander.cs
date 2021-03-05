@@ -12,6 +12,8 @@ using System.Text.RegularExpressions;
 using Sider.Models;
 using System.Threading;
 using System.Diagnostics;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace Sider
 {
@@ -277,12 +279,14 @@ namespace Sider
 
         private void emitWaitForElementNotPresent(Command command)
         {
-            throw new NotImplementedException();
+            var w = new WebDriverWait(this.driver, ImplicitWait);
+            w.Until(ExpectedRunnerConditions.ElementNotExists(command.TargetToLocator()));
         }
 
         private void emitWaitForElementPresent(Command command)
         {
-            throw new NotImplementedException();
+            var w = new WebDriverWait(this.driver, ImplicitWait);
+            w.Until(ExpectedConditions.ElementExists(command.TargetToLocator()));
         }
 
         private void emitAssert(Command command)
@@ -483,7 +487,8 @@ namespace Sider
 
         private void emitVerifyValue(Command command)
         {
-            throw new NotImplementedException();
+            var el = this.driver.FindElement(command.TargetToLocator());
+            SeleniumAssert.AreSame(command.Value, el.GetAttribute("value"));
         }
 
         private void emitVerifyNotSelectedValue(Command command)
